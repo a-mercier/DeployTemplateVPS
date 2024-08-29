@@ -38,6 +38,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Replace docker hub secrets in docker-compose.yml
+        run: |
+          sed -i 's|${{ secrets.DOCKER_HUB_USERNAME }}|'${{ secrets.DOCKER_HUB_USERNAME }}'|g' docker-compose.yml
+
       - name: Copy docker-compose.yml to VPS
         uses: appleboy/scp-action@master
         with:
