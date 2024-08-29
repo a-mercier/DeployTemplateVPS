@@ -46,7 +46,7 @@ jobs:
           key: ${{ secrets.VPS_PRIVATE_KEY }}
           port: ${{ secrets.VPS_PORT }}
           source: docker-compose.yml
-          target: /home/ubuntu/deploy-template-vps/docker-compose.yml
+          target: /home/ubuntu/deploy-template-vps
 
       - name: SSH into VPS and deploy app
         uses: appleboy/ssh-action@master
