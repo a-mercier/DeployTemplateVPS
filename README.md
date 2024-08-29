@@ -18,17 +18,50 @@ sudo curl -L "https://github.com/docker/compose/releases/download/v2.6.0/docker-
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-To handle SSL certificates, we use Certbot. For the first time, you need to generate a certificate. It will be renewed automatically. Here is how to generate the certificate (update with your domain name):
+To handle SSL certificates, we use Certbot. For the first time, you need to generate a certificate. It will be renewed automatically. 
+
+To validate a certificate, Certbot needs to access a specific route on your server. We will need a very simple nginx web server to serve this route. Here is how to create it:
 
 ```bash
 sudo mkdir -p /var/www/certbot/DeployTemplateVps
 
-# After the first deployment, run this command to create certificates (nginx must be running to validate the domain)
-sudo docker run -it --rm --name certbot \
+sudo apt update
+sudo apt install -y nginx
+
+sudo nano /etc/nginx/sites-available/default
+```
+
+On the file opened by nano, replace the content with the following:
+
+```nginx
+server {
+   listen 80;
+   server_name test.amercier.fr; # Replace with your domain
+
+   location /.well-known/acme-challenge/ {
+      root /var/www/certbot/DeployTemplateVps;
+   }
+}
+```
+
+Then, restart nginx:
+
+```bash
+sudo systemctl restart nginx
+```
+
+Finally, you can generate the certificate with Certbot and then uninstall nginx on the VPS:
+
+```bash
+sudo docker run -it --rm \
    -v /etc/letsencrypt:/etc/letsencrypt \
    -v /var/www/certbot/DeployTemplateVps:/var/www/certbot/DeployTemplateVps \
    certbot/certbot certonly --webroot -w /var/www/certbot/DeployTemplateVps -d test.amercier.fr
+
+sudo apt remove --purge nginx
 ```
+
+It will then we renewed automatically by the certbot container.
 
 Lastly, you need to generate a private key for the Github Actions to access your VPS.
 
