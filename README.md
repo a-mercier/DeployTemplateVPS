@@ -23,6 +23,7 @@ To handle SSL certificates, we use Certbot. For the first time, you need to gene
 ```bash
 sudo mkdir -p /var/www/certbot/DeployTemplateVps
 
+# After the first deployment, run this command to create certificates (nginx must be running to validate the domain)
 sudo docker run -it --rm --name certbot \
    -v /etc/letsencrypt:/etc/letsencrypt \
    -v /var/www/certbot/DeployTemplateVps:/var/www/certbot/DeployTemplateVps \
