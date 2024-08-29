@@ -1,8 +1,8 @@
 version: "3.8"
 
 services:
-  service1:
-    build: ./app
+  app:
+    image: ${{ secrets.DOCKER_HUB_USERNAME }}/deploy-template-vps:latest
     container_name: app
     restart: always
     ports:
