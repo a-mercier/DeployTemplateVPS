@@ -54,4 +54,10 @@ You also need a `production` branch. This branch will be used to deploy your app
 
 You need to replace all occurences of `test.amercier.fr` with your domain name.
 
+You need to replace all occurences of `deploy-template-vps` with your Docker Hub repository name.
+
 If your VPS is not an Ubuntu server, you may need to adjust this template (for example in the `ci-cd.yml` the `/home/ubuntu/deploy-template-vps` path).
+
+## Deploy
+
+To deploy your application, merge the `main` branch into the `production` branch. The GitHub Actions will build your Docker image, push it to Docker Hub, and deploy it to your VPS.
