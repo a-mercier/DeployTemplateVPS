@@ -71,6 +71,14 @@ You need a Docker Hub account to store your Docker images. Create a new reposito
 
 You also need to create a personal access token to allow GitHub Actions to push images to your repository. As of today, you can create a new token on your "Docker Hub Account Setting" > "Security" > "Personal Access Token".
 
+If you want to use a private repository, you need to login to Docker Hub on your VPS:
+
+```bash
+sudo docker login --username=yourhubusername
+```
+
+It will ask for a password, you can use the access token you just created.
+
 ### GitHub
 
 Clone this repository and create a new one from it. Then, go to the settings of your repository, and in the "Secrets" section, add the following secrets:
